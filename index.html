@@ -1,0 +1,164 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+   <div class="card"> 
+    <div class="search">
+        <input type="text" placeholder="enter city name" spellcheck="false"
+        <div> 
+        <button><img src="images/search.png">  </button> 
+        </div>
+        <div class ="weather">
+            <img src="images/rain.png" class="weather-icon">
+            <h1 class="temp"> 22c</h1>
+            <h2 class="city"> New york</h2>
+            <div class="details">
+              <div class="col">
+                <img src="images/humidity.png"> 
+                <div>
+                    <p class="humidity">50%</p>
+                    <p>humidity </p>
+                </div>
+              </div>
+              <div class="col">
+                <img src="images/wind.png"> 
+                <div>
+                    <p class="wind">15 km/h</p>
+                    <p>wind speed</p>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+   </div>
+   <script>
+    const apiKey="7417ab6f6ce6e54c20c438ea59cc5be9";
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=&appid=${apiKey}`;
+
+    const searchBox = document.querySelector(".search input"); 
+    const searchBtn = document.querySelector(".search button");
+
+    async function checkWheather(city) {
+      const response = await fetch(apiUrl + city + '&appid=${apiKey}');
+      var data = await response.json();
+
+
+      console.log(data);
+      
+      document.querySelector(".city").innerHTML = data.name;
+      document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "c";
+      document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+      document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+    }
+    searchBtn.addEventListener("click", ()=>{
+   checkWheather(searchBox.value);
+    })
+   </script>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+   <div class="card"> 
+    <div class="search">
+        <input type="text" placeholder="Enter city name" spellcheck="false">
+        <button><img src="images/search.png"></button>
+    </div>
+    <div class="weather">
+        <img src="images/rain.png" class="weather-icon">
+        <h1 class="temp">22°C</h1>
+        <h2 class="city">New York</h2>
+        <div class="details">
+            <div class="col">
+                <img src="images/humidity.png"> 
+                <div>
+                    <p class="humidity">50%</p>
+                    <p>Humidity</p>
+                </div>
+            </div>
+            <div class="col">
+                <img src="images/wind.png"> 
+                <div>
+                    <p class="wind">15 km/h</p>
+                    <p>Wind Speed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+   </div>
+   
+   <script>
+    const apiKey = "7417ab6f6ce6e54c20c438ea59cc5be9";
+    
+    const searchBox = document.querySelector(".search input"); 
+    const searchBtn = document.querySelector(".search button");
+    
+    async function checkWeather(city) {
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${city}&appid=${apiKey}`;
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        
+        if (response.status === 404) {
+            alert("City not found!");
+            return;
+        }
+        console.log(data);
+        document.querySelector(".city").innerHTML = data.name;
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+        document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+        
+        
+        const weatherIcon = document.querySelector(".weather-icon");
+        switch(data.weather[0].main) {
+            case 'Clear':
+                weatherIcon.src = "images/clear.png";
+                break;
+            case 'Clouds':
+                weatherIcon.src = "images/clouds.png";
+                break;
+            case 'Rain':
+                weatherIcon.src = "images/rain.png";
+                break;
+            case 'Drizzle':
+                weatherIcon.src = "images/drizzle.png";
+                break;
+            case 'Snow':
+                weatherIcon.src = "images/snow.png";
+                break;
+            case 'mist':
+                weatherIcon.src = "images/mist.png";
+                break;
+           
+        }
+    }
+    
+    searchBtn.addEventListener("click", () => {
+        const city = searchBox.value;
+        if (city) {
+            checkWeather(city);
+        } else {
+            alert("Please enter a city name.");
+        }
+    });
+   </script>
+</body>
+</html>
+ 
